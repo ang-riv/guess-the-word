@@ -86,6 +86,7 @@ const validate = function(input){
     }
 };
 
+// fcn that adds the user's guessed letter to an array to keep track of what they've already guessed
 const makeGuess = function(letter){
     // convert all user's guesses to uppercase to make it easier to match
     const guessedLetter = letter.toUpperCase();
@@ -95,5 +96,23 @@ const makeGuess = function(letter){
     } else {
         // if the letter is not in the array, add it to the array
         usersGuesses.push(guessedLetter);
+        // then show the guesses to the user!
+        showGuesses();
     }
-}
+};
+
+// fcn to show the guessed letters
+const showGuesses = function () {
+    // empty the ul
+    guessedLetters.innerHTML = "";
+    // create a new list item for each letter inside the usersGuesses array, the value of each list item will be the contents of the array
+    for (let i = 0; i < usersGuesses.length; i++) {
+        // make the list element
+        let letters = document.createElement("li");
+        // update the list element to be the letters
+        letters.innerText = usersGuesses[i];
+        // add it to the ul
+        guessedLetters.append(letters);
+    }
+};
+
