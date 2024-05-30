@@ -16,6 +16,8 @@ const message = document.querySelector(".message");
 // play again button
 const playAgain = document.querySelector(".play-again");
 
+// array that holds the letters that the user has already guessed
+const usersGuesses = [];
 // tester target word that user needs to guess
 const word = "magnolia";
 
@@ -50,7 +52,16 @@ guessButton.addEventListener("click", function (e) {
 
     // make sure that what the user guesses is a valid character
     const validatedGuess = (validate(usersGuess));
-    console.log(validatedGuess);
+    //console.log(validatedGuess);
+
+    // adding the guessed letters into the array so long as validatedGuess is not undefined
+    // gets rid of the error in console if undefined is returned
+    if(validatedGuess !== undefined){
+        makeGuess(validatedGuess);
+    }
+    
+    // log out the array
+    console.log(usersGuesses);
 });
 
 // fcn that will validate the user's input
@@ -74,3 +85,15 @@ const validate = function(input){
         return input;
     }
 };
+
+const makeGuess = function(letter){
+    // convert all user's guesses to uppercase to make it easier to match
+    const guessedLetter = letter.toUpperCase();
+    if(usersGuesses.includes(guessedLetter) === true){
+        // if the letter is already in the array, tell the user and do not add it to the array again
+        message.innerText = "You already guessed that, silly. Pick a different letter.";
+    } else {
+        // if the letter is not in the array, add it to the array
+        usersGuesses.push(guessedLetter);
+    }
+}
