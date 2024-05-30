@@ -16,6 +16,22 @@ const message = document.querySelector(".message");
 // play again button
 const playAgain = document.querySelector(".play-again");
 
-// tester word that user needs to guess
+// tester target word that user needs to guess
 const word = "magnolia";
 
+// fcn to create the placeholders for each letter in the target word
+const placeholders = function(word) {
+    // the tester word has 8 letters, which means we need to make 8 dots appear
+    // initialize it to nothing first
+    let placeholderSymbols = "";
+
+    // use a for loop to make the symbols appear on the same line in the amount that we want
+    for (let i = 0; i < word.length; i++) {
+        placeholderSymbols += "●";
+    }
+
+    //update the innerText to show the placeholders
+    wordToGuess.innerText = placeholderSymbols;
+};
+
+placeholders(word);
