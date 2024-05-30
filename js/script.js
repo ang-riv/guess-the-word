@@ -35,3 +35,16 @@ const placeholders = function(word) {
 };
 
 placeholders(word);
+
+// event listener for the button
+// has a parameter because we want to know the value of which letter they have in the input box when they click the button
+guessButton.addEventListener("click", function (e) {
+    // this to prevent the page from clicking the button, the form submitting, and the page reloading each time
+    e.preventDefault();
+
+    // variable that captures the value of the input
+    const usersGuess = letterInput.value;
+    console.log(usersGuess);
+    // clears the text input box each time the user clicks the button
+    letterInput.value = "";
+});
