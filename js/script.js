@@ -19,7 +19,7 @@ const playAgain = document.querySelector(".play-again");
 // array that holds the letters that the user has already guessed
 const usersGuesses = [];
 // tester target word that user needs to guess
-const word = "magnolia";
+const word = "are";
 
 // fcn to create the placeholders for each letter in the target word
 const placeholders = function(word) {
@@ -132,6 +132,7 @@ const updateTargetWord = function(usersGuesses){
     const newArr = new Array(wordArray.length).fill("●");
 
     // check each letter in the usersGuesses
+    //!DOESN'T WORK FOR DOUBLE LETTERS!
     usersGuesses.forEach(letter => {
         // go through the wordArray and check if any of the letters match the one in the usersGuesses array and what if it does, then give back the index of where it is
         const index = wordArray.indexOf(letter);
@@ -143,6 +144,25 @@ const updateTargetWord = function(usersGuesses){
 
     // then join together the word again
     const newWord = newArr.join('');
-    //console.log(newWord);
+    // check if the player has successfully guessed the word
+    userWin();
     return newWord;
+}
+
+// fcn to check if the player has won
+const userWin = function () {
+    // verify if the word in progress matches the word they should guess
+    // use the arrays
+    //  join the array so that you can match it to the word
+    const joinedGuess = usersGuesses.join('');
+    const targetWord = word.toUpperCase();
+    console.log(joinedGuess);
+    if(joinedGuess === targetWord) {
+        console.log("you won!");
+        message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
+        message.classList.add("win");
+    }
+    // if they've won/if matches the word in progress, then add the 'win' class to message
+
+    // then add update the paragraphs contents
 }
