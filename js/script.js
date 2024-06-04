@@ -20,7 +20,7 @@ const playAgain = document.querySelector(".play-again");
 // must be let so that we can change it in countGuesses
 let remainingGuessesNum = 8;
 // array that holds the letters that the user has already guessed
-const usersGuesses = [];
+let usersGuesses = [];
 // tester target word that user needs to guess
 let word = "are";
 
@@ -70,7 +70,7 @@ const placeholders = function(word) {
 
 getWord();
 
-//* event listener for the button
+//* event listener for the guess button
 // has a parameter because we want to know the value of which letter they have in the input box when they click the button
 guessButton.addEventListener("click", function (e) {
     // this to prevent the page from clicking the button, the form submitting, and the page reloading each time
@@ -95,6 +95,30 @@ guessButton.addEventListener("click", function (e) {
     // log out the array
     console.log(usersGuesses);
 });
+
+//* event listener for play again button
+playAgain.addEventListener("click", function () {
+    // resetting everything
+    message.classList.remove("win");
+    message.innerText = "";
+    guessedLetters.innerText = "";
+    remainingGuessesNum = 8;
+    usersGuesses = [];
+    numOfGuessesLeft.innerText = `${remainingGuessesNum} guesses`;
+
+    // show guess button, remaining guesses, guessed letters
+    guessButton.classList.remove("hide");
+    remainingGuesses.classList.remove("hide");
+    guessedLetters.classList.remove("hide");
+
+    // show the play again button
+    playAgain.classList.add("hide");
+
+    // get a new word to play with
+    getWord();
+});
+
+
 
 //* fcn that will validate the user's input
 const validate = function(input){
@@ -188,7 +212,6 @@ const countGuesses = function(guess) {
     const targetWord = word.toUpperCase();
     // if the word the user is trying to guess contains the letter that they just guessed then let the player know the letter is in the word
     console.log(targetWord);
-    //TODO: FIX CONTAINS SO THAT IT WORKS
     if(targetWord.includes(guess.toUpperCase()) === true){
         message.innerText = "That letter is in the word!";
     } else {
@@ -200,6 +223,7 @@ const countGuesses = function(guess) {
     // check to see if their guesses are at zero
     if(remainingGuessesNum === 0){
         message.innerText = `Game Over! The word was: ${targetWord}`;
+        startOver();
     } else if(remainingGuessesNum === 1) {
         // if they have only 1 guess left
         numOfGuessesLeft.innerText = `1 guess`;
@@ -230,6 +254,7 @@ const userWin = function () {
         console.log("you won!");
         message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
         message.classList.add("win");
+        startOver();
     } else {
         console.log("Haven't found all the letters yet.");
     }
@@ -239,3 +264,17 @@ const userWin = function () {
 const removeDuplicates = function(arr) {
     return arr.filter((value, index) => arr.indexOf(value) === index);
 };
+
+//* fcn to start the game over after user wins or loses
+const startOver = function() {
+    // hide the guess button
+    guessButton.classList.add("hide");
+    // paragraph where the remaining guesses will display
+    remainingGuesses.classList.add("hide");
+    // ul
+    guessedLetters.classList.add("hide");
+
+    // show the play-again button
+    playAgain.classList.remove("hide");
+}
+
