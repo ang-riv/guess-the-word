@@ -16,12 +16,15 @@ const message = document.querySelector(".message");
 // play again button
 const playAgain = document.querySelector(".play-again");
 
+// the number of remaining guesses
+// must be let so that we can change it in countGuesses
+let remainingGuessesNum = 8;
 // array that holds the letters that the user has already guessed
 const usersGuesses = [];
 // tester target word that user needs to guess
 const word = "are";
 
-// fcn to create the placeholders for each letter in the target word
+//* fcn to create the placeholders for each letter in the target word
 const placeholders = function(word) {
     // the tester word has 8 letters, which means we need to make 8 dots appear
     // initialize it to nothing first
@@ -38,7 +41,7 @@ const placeholders = function(word) {
 
 placeholders(word);
 
-// event listener for the button
+//* event listener for the button
 // has a parameter because we want to know the value of which letter they have in the input box when they click the button
 guessButton.addEventListener("click", function (e) {
     // this to prevent the page from clicking the button, the form submitting, and the page reloading each time
@@ -64,7 +67,7 @@ guessButton.addEventListener("click", function (e) {
     console.log(usersGuesses);
 });
 
-// fcn that will validate the user's input
+//* fcn that will validate the user's input
 const validate = function(input){
     // regEx to make sure the user puts in a letter
     const acceptedLetter = /[a-zA-Z]/;
@@ -86,7 +89,7 @@ const validate = function(input){
     }
 };
 
-// fcn that adds the user's guessed letter to an array to keep track of what they've already guessed
+//* fcn that adds the user's guessed letter to an array to keep track of what they've already guessed
 const makeGuess = function(letter){
     // convert all user's guesses to uppercase to make it easier to match
     const guessedLetter = letter.toUpperCase();
@@ -98,12 +101,14 @@ const makeGuess = function(letter){
         usersGuesses.push(guessedLetter);
         // then show the guesses to the user!
         showGuesses();
+        // update the remaining number of guesses
+        countGuesses(guessedLetter);
         // then update the paragraph with the letters
         wordToGuess.innerText = updateTargetWord(usersGuesses);
     }
 };
 
-// fcn to show the guessed letters
+//* fcn to show the guessed letters
 const showGuesses = function () {
     // empty the ul
     guessedLetters.innerHTML = "";
@@ -118,7 +123,7 @@ const showGuesses = function () {
     }
 };
 
-// fcn to update the word in progress
+//* fcn to update the word in progress
 const updateTargetWord = function(usersGuesses){
     // changes word to uppercase
     const wordUpper = word.toUpperCase();
@@ -147,9 +152,37 @@ const updateTargetWord = function(usersGuesses){
     // check if the player has successfully guessed the word
     userWin();
     return newWord;
-}
+};
 
-// fcn to check if the player has won
+//* fcn to count how many guesses are left
+const countGuesses = function(guess) {
+    const targetWord = word.toUpperCase();
+    // if the word the user is trying to guess contains the letter that they just guessed then let the player know the letter is in the word
+    console.log(targetWord);
+    //TODO: FIX CONTAINS SO THAT IT WORKS
+    if(targetWord.includes(guess.toUpperCase()) === true){
+        message.innerText = "That letter is in the word!";
+    } else {
+        // if not, then 
+        message.innerText = "That letter is not in the word.";
+        // subtract one of their guesses
+        remainingGuessesNum--;
+    }
+    // check to see if their guesses are at zero
+    if(remainingGuessesNum === 0){
+        message.innerText = `Game Over! The word was: ${targetWord}`;
+    } else if(remainingGuessesNum === 1) {
+        // if they have only 1 guess left
+        numOfGuessesLeft.innerText = `1 guess`;
+    } else {
+        // if they have more than one guess
+        numOfGuessesLeft.innerHTML = `${remainingGuessesNum} guesses`;
+    }
+};
+
+//countGuesses("a");
+
+//* fcn to check if the player has won
 const userWin = function () {
     // verify if the word in progress matches the word they should guess
     // use the arrays
@@ -165,4 +198,4 @@ const userWin = function () {
     // if they've won/if matches the word in progress, then add the 'win' class to message
 
     // then add update the paragraphs contents
-}
+};
