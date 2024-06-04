@@ -214,20 +214,28 @@ const countGuesses = function(guess) {
 //* fcn to check if the player has won
 const userWin = function () {
     // verify if the word in progress matches the word they should guess
-    // use the arrays
-    //  join the array so that you can match it to the word
-    // TODO: use includes? or contains?
-    // can use either wordToGuess.innerText or includes with usersGuesses
-    const joinedGuess = usersGuesses.join('');
-    const wordInProgress = wordToGuess.innerText;
+    // need to split the target word into an array
     const targetWord = word.toUpperCase();
-    console.log(wordToGuess.innerText);
-    if(wordInProgress === targetWord) {
+    const targetArr = targetWord.split('');
+
+    // filter out duplicate letters
+    const newArr = removeDuplicates(targetArr);
+    // compare and figure out subset
+
+    // if the target word is a subset of the user's guesses then they win
+    console.log(newArr);
+    console.log(usersGuesses);
+    // compare to user's guesses and figure out if it contains all the letters
+    if(newArr.every(letter => usersGuesses.includes(letter))){
         console.log("you won!");
         message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
         message.classList.add("win");
+    } else {
+        console.log("Haven't found all the letters yet.");
     }
-    // if they've won/if matches the word in progress, then add the 'win' class to message
+};
 
-    // then add update the paragraphs contents
+// * fcn that removes duplicate letters
+const removeDuplicates = function(arr) {
+    return arr.filter((value, index) => arr.indexOf(value) === index);
 };
