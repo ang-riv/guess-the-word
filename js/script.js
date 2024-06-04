@@ -22,7 +22,38 @@ let remainingGuessesNum = 8;
 // array that holds the letters that the user has already guessed
 const usersGuesses = [];
 // tester target word that user needs to guess
-const word = "are";
+let word = "are";
+
+//* async fcn
+const getWord = async function() {
+    // fetch the data
+    const request = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    // convert to text file
+    const words = await request.text();
+    // turn the words into an array, gets rid of the line breaks and white space
+    const wordArray = words.split("\n");
+    // test to see if received
+    //console.log(wordArray);
+
+    // pick a random word and reassign it to the global word variable
+    word = randomWord(wordArray);
+    
+    // pass the new word into placeholder to make it show up on the screen with the correct amount of letters
+    placeholders(word);
+    console.log(word);
+};
+
+getWord();
+
+//* randomly select a word from the word text file
+const randomWord = function(wordArray) {
+    // picks the random index in the array
+    const randomIndex = Math.floor(Math.random() * wordArray.length);
+    // assign the value of that random index
+    const randomWord = wordArray[randomIndex].trim();
+    //console.log(randomWord);
+    return randomWord;
+};
 
 //* fcn to create the placeholders for each letter in the target word
 const placeholders = function(word) {
