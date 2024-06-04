@@ -43,8 +43,6 @@ const getWord = async function() {
     console.log(word);
 };
 
-getWord();
-
 //* randomly select a word from the word text file
 const randomWord = function(wordArray) {
     // picks the random index in the array
@@ -70,7 +68,7 @@ const placeholders = function(word) {
     wordToGuess.innerText = placeholderSymbols;
 };
 
-placeholders(word);
+getWord();
 
 //* event listener for the button
 // has a parameter because we want to know the value of which letter they have in the input box when they click the button
@@ -218,10 +216,13 @@ const userWin = function () {
     // verify if the word in progress matches the word they should guess
     // use the arrays
     //  join the array so that you can match it to the word
+    // TODO: use includes? or contains?
+    // can use either wordToGuess.innerText or includes with usersGuesses
     const joinedGuess = usersGuesses.join('');
+    const wordInProgress = wordToGuess.innerText;
     const targetWord = word.toUpperCase();
-    console.log(joinedGuess);
-    if(joinedGuess === targetWord) {
+    console.log(wordToGuess.innerText);
+    if(wordInProgress === targetWord) {
         console.log("you won!");
         message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
         message.classList.add("win");
