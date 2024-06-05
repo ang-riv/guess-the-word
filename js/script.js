@@ -182,26 +182,20 @@ const updateTargetWord = function(usersGuesses){
     const wordUpper = word.toUpperCase();
     // splits the word into it's letter in the array
     const wordArray = wordUpper.split("");
-
-    // check if the wordArray is working
-    //console.log(wordArray);
-
-    // make new array with the same length as the first array with the placeholders inside
-    const newArr = new Array(wordArray.length).fill("●");
-
-    // check each letter in the usersGuesses
-    //!DOESN'T WORK FOR DOUBLE LETTERS!
-    usersGuesses.forEach(letter => {
-        // go through the wordArray and check if any of the letters match the one in the usersGuesses array and what if it does, then give back the index of where it is
-        const index = wordArray.indexOf(letter);
-        // if it DOES exist, then place the element at the SAME index in the newArr as it is in the wordArray!
-        if(index !== -1) {
-            newArr[index] = letter;
+    const showWord = [];
+    // loop over the values of the array, in this case the letters
+    for(const letter of wordArray) {
+        // if any of the user's guesses has that letter
+        if(usersGuesses.includes(letter)) {
+            // put it into the array
+            showWord.push(letter.toUpperCase());
+        } else {
+            // if not, add the placeholder
+            showWord.push("●");
         }
-    });
-
+    }
     // then join together the word again
-    const newWord = newArr.join('');
+    const newWord = showWord.join('');
     // check if the player has successfully guessed the word
     userWin();
     return newWord;
